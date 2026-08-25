@@ -5,7 +5,7 @@
       "name": "workouts-app",
       "runtimeExecutable": "powershell.exe",
       "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "serve.ps1"],
-      "port": 5173
+      "port": 5510
     }
   ]
 }
