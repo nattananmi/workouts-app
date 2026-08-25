@@ -192,8 +192,6 @@ const els = {
 
   formStep: document.getElementById("formStep"),
   resultStep: document.getElementById("resultStep"),
-  stepDot1: document.getElementById("stepDot1"),
-  stepDot2: document.getElementById("stepDot2"),
 
   resultAvatar: document.getElementById("resultAvatar"),
   resultAvatarPlaceholder: document.getElementById("resultAvatarPlaceholder"),
@@ -310,8 +308,6 @@ function goToStep(step) {
   const isResult = step === "result";
   els.formStep.classList.toggle("active", !isResult);
   els.resultStep.classList.toggle("active", isResult);
-  els.stepDot1.classList.toggle("active", !isResult);
-  els.stepDot2.classList.toggle("active", isResult);
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 

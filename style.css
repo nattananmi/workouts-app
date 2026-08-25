@@ -27,69 +27,15 @@ html, body {
 }
 
 .page {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 32px 20px 80px;
-}
-
-.page-header h1 {
-  font-size: 28px;
-  margin: 0 0 6px;
-  letter-spacing: -0.01em;
-}
-
-.page-header p {
-  margin: 0 0 20px;
-  color: var(--text-dim);
-  max-width: 640px;
-  line-height: 1.5;
-}
-
-/* ===== STEP INDICATOR ===== */
-
-.steps-indicator {
+  min-height: 100vh;
   display: flex;
-  align-items: center;
-  gap: 10px;
-  max-width: 380px;
-  margin: 0 auto 28px;
-}
-
-.step-dot {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text-faint);
-  white-space: nowrap;
-}
-
-.step-dot span {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--panel-2);
-  border: 1px solid var(--border);
-  display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-dim);
-}
-
-.step-dot.active { color: var(--text); }
-.step-dot.active span { background: var(--accent); border-color: var(--accent); color: #fff; }
-
-.step-line {
-  flex: 1;
-  height: 1px;
-  background: var(--border);
 }
 
 .layout {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .layout .step-view {
@@ -106,16 +52,15 @@ html, body {
 }
 
 .form-panel.step-view.active {
-  max-width: 460px;
+  max-width: 480px;
 }
 
 /* ===== FORM PANEL ===== */
 
 .panel {
   background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
+  min-height: 100vh;
+  padding: 32px 24px;
 }
 
 .form-panel h2 {
@@ -255,15 +200,15 @@ html, body {
 .phone-wrap {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 
 .phone {
   width: 100%;
-  max-width: 400px;
+  max-width: 480px;
+  min-height: 100vh;
   background: #000;
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  padding: 18px 18px 26px;
+  padding: 18px 18px 40px;
 }
 
 .app-topbar {
