@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Running Tracker</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+
+  <header class="page-header">
+    <h1>Running Tracker</h1>
+    <p>กรอกข้อมูลการวิ่ง ระบบจะคำนวณระยะทาง จำนวนก้าว และอัตราการเต้นหัวใจเฉลี่ยให้อัตโนมัติ</p>
+  </header>
+
+  <div class="steps-indicator">
+    <div class="step-dot active" id="stepDot1"><span>1</span> กรอกข้อมูล</div>
+    <div class="step-line"></div>
+    <div class="step-dot" id="stepDot2"><span>2</span> ผลลัพธ์</div>
+  </div>
+
+  <div class="layout">
+
+    <!-- ===== FORM ===== -->
+    <section class="panel form-panel step-view active" id="formStep">
+      <h2>ข้อมูลการวิ่ง</h2>
+
+      <div class="field avatar-field">
+        <button type="button" class="avatar-picker" id="avatarPicker" aria-label="เลือกรูปโปรไฟล์">
+          <img id="avatarPreview" alt="" hidden>
+          <svg id="avatarPlaceholder" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span class="avatar-edit">เปลี่ยนรูป</span>
+        </button>
+        <input type="file" id="photoInput" accept="image/*" hidden>
+      </div>
+
+      <div class="field">
+        <label for="nameInput">ชื่อ</label>
+        <input type="text" id="nameInput" placeholder="เช่น Pingpong" value="Pingpong">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="dateInput">วันที่</label>
+          <input type="date" id="dateInput">
+        </div>
+        <div class="field">
+          <label for="timeInput">เวลาเริ่ม</label>
+          <input type="time" id="timeInput" value="06:30">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>ระยะเวลา (ชม. : นาที : วินาที)</label>
+        <div class="duration-row">
+          <input type="number" id="durHours" min="0" max="23" value="0" aria-label="ชั่วโมง">
+          <span>:</span>
+          <input type="number" id="durMinutes" min="0" max="59" value="30" aria-label="นาที">
+          <span>:</span>
+          <input type="number" id="durSeconds" min="0" max="59" value="0" aria-label="วินาที">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="speedInput">ความเร็วเฉลี่ย (km/h)</label>
+        <input type="number" id="speedInput" min="0" step="0.01" value="10.2">
+      </div>
+
+      <div class="field">
+        <label for="weightInput">น้ำหนักตัว (kg) <span class="hint">— ใช้ประมาณค่าแคลอรี่เท่านั้น</span></label>
+        <input type="number" id="weightInput" min="20" step="0.5" value="65">
+      </div>
+
+      <div class="field">
+        <label for="deviceInput">ชื่ออุปกรณ์</label>
+        <input type="text" id="deviceInput" placeholder="เช่น Amazfit GTR 2e" value="Amazfit GTR 2e">
+      </div>
+
+      <button type="button" class="calc-btn" id="calcBtn">คำนวณผลการวิ่ง</button>
+    </section>
+
+    <!-- ===== RESULT CARD (phone style) ===== -->
+    <section class="phone-wrap step-view" id="resultStep">
+      <div class="phone">
+
+        <div class="app-topbar">
+          <button type="button" class="icon-btn icon-btn-action" id="backBtn" aria-label="กลับไปแก้ไขข้อมูล">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <span class="app-title">Running</span>
+          <svg viewBox="0 0 24 24" class="icon-btn" fill="none"><circle cx="5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="19" cy="12" r="1.6" fill="currentColor"/></svg>
+        </div>
+        <div class="chevron-down">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+
+        <div class="profile-row">
+          <div class="profile-left">
+            <div class="avatar-circle" id="resultAvatarWrap">
+              <img id="resultAvatar" alt="" hidden>
+              <svg id="resultAvatarPlaceholder" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="profile-right">
+            <div class="device-badge">
+              <svg viewBox="0 0 24 24" class="watch-icon" fill="none"><rect x="7" y="7" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 4h6M9 20h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <span id="outDevice">Amazfit GTR 2e</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="name-date-row">
+          <div>
+            <div class="runner-name" id="outName">Pingpong</div>
+            <div class="run-datetime" id="outDateTime">—</div>
+          </div>
+          <div class="distance-block">
+            <span class="distance-value" id="outDistance">0.00</span>
+            <span class="distance-unit">km</span>
+          </div>
+        </div>
+
+        <div class="pace-bar">
+          <span class="pace-label slow">Slow</span>
+          <div class="pace-track"><div class="pace-fill" id="paceFill"></div></div>
+          <span class="pace-label fast">Fast</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-value" id="outTime">00:00</div>
+            <div class="stat-label">Workout time</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="outAvgSpeed">0.00</div>
+            <div class="stat-label">Avg speed</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="outAvgHr">0</div>
+            <div class="stat-label">Avg heart rate</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="outCalories">0</div>
+            <div class="stat-label">Calories</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="outSteps">0</div>
+            <div class="stat-label">Steps</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="outMaxSpeed">0.00</div>
+            <div class="stat-label">Max speed</div>
+          </div>
+        </div>
+
+        <button type="button" class="detail-link">
+          <span>Detailed data</span>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+
+        <div class="chart-card">
+          <div class="chart-head">
+            <span class="chart-title">SPEED <span class="unit">(km/h)</span></span>
+          </div>
+          <div class="chart-summary">
+            <div><span class="chart-num" id="chartAvgSpeed">0.00</span><span class="chart-sub">Avg</span></div>
+            <div class="divider"></div>
+            <div><span class="chart-num" id="chartMaxSpeed">0.00</span><span class="chart-sub">Max</span></div>
+          </div>
+          <svg id="speedChart" class="chart-svg" viewBox="0 0 320 140" preserveAspectRatio="none"></svg>
+          <div class="chart-xaxis" id="speedXAxis"></div>
+        </div>
+
+        <div class="chart-card">
+          <div class="chart-head">
+            <span class="chart-title">HEART RATE <span class="unit">(bpm)</span></span>
+          </div>
+          <div class="chart-summary">
+            <div><span class="chart-num" id="chartAvgHr">0</span><span class="chart-sub">Avg</span></div>
+            <div class="divider"></div>
+            <div><span class="chart-num" id="chartMaxHr">0</span><span class="chart-sub">Max</span></div>
+          </div>
+          <svg id="hrChart" class="chart-svg" viewBox="0 0 320 140" preserveAspectRatio="none"></svg>
+          <div class="chart-xaxis" id="hrXAxis"></div>
+        </div>
+
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
